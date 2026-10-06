@@ -1,0 +1,14 @@
+# Saída de build e publicação (gerada com `dotnet build` / `dotnet publish`)
+bin/
+obj/
+publish/
+
+# Arquivos de IDE e de usuário
+.vs/
+.vscode/
+*.user
+*.suo
+
+# Bancos SQLite locais (dados de teste não devem ir para o repositório)
+*.db
+*.db-journal
