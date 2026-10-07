@@ -12,10 +12,33 @@ Aplicação desktop para Windows que cadastra pessoas com apenas **Nome** e **Te
 
 ## Como executar
 
-Executável pronto: `publish\ControleAcessos.exe` (não precisa ter o .NET instalado).
+### Opção 1: executável pronto (recomendado)
+
+1. Baixe o `ControleAcessos.exe` na [última release](https://github.com/Patrick-AP-Lemos/CRUD_name_phone/releases/latest).
+2. Dê dois cliques no arquivo. Não é preciso instalar o .NET.
+
+> Como o executável não tem assinatura digital, o Windows pode exibir o aviso do SmartScreen ("O Windows protegeu seu computador"). Clique em **Mais informações** e depois em **Executar assim mesmo**.
+
+### Opção 2: a partir do código-fonte
+
+Requisitos: Windows e [.NET 10 SDK](https://dotnet.microsoft.com/download).
+
+```powershell
+git clone https://github.com/Patrick-AP-Lemos/CRUD_name_phone.git
+cd CRUD_name_phone
+dotnet run --project ControleAcessos/ControleAcessos.csproj
+```
 
 O banco é criado automaticamente na primeira execução em
 `%LocalAppData%\ControleAcessos\acessos.db`.
+
+## Como usar
+
+- **Novo registro:** preencha Nome e Telefone (DDD + número) e clique em **Salvar** (ou pressione `Enter` no campo Telefone).
+- **Editar:** clique em uma linha da grade, altere os campos e clique em **Salvar**.
+- **Excluir:** selecione a linha, clique em **Excluir** e confirme.
+- **Buscar:** digite parte do nome no campo de busca; a grade filtra enquanto você digita.
+- **Novo (botão):** limpa o formulário para iniciar outro cadastro.
 
 ## Como gerar o .exe
 
@@ -23,7 +46,7 @@ O banco é criado automaticamente na primeira execução em
 dotnet publish ControleAcessos/ControleAcessos.csproj -c Release -o publish
 ```
 
-As opções de publicação (single-file, self-contained, win-x64) já estão no `.csproj`.
+O arquivo é gerado em `publish\ControleAcessos.exe`. As opções de publicação (single-file, self-contained, win-x64) já estão no `.csproj`. A pasta `publish` não é versionada: o executável fica disponível nas releases.
 
 ## Estrutura
 
