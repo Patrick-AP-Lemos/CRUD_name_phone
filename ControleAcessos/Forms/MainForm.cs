@@ -3,11 +3,12 @@ using ControleAcessos.Models;
 
 namespace ControleAcessos.Forms;
 
-/// <summary>Tela única do sistema: formulário de cadastro, busca e grade de registros.</summary>
+//Formulário de cadastro, busca e grade de registros
 public class MainForm : Form
 {
     private readonly PessoaRepository _repositorio;
 
+    //Controles do formulário
     private readonly TextBox _txtBusca = new() { PlaceholderText = "Buscar por nome..." };
     private readonly DataGridView _grade = new();
     private readonly TextBox _txtNome = new() { MaxLength = 100 };
@@ -17,13 +18,13 @@ public class MainForm : Form
     private readonly Button _btnExcluir = new() { Text = "Excluir" };
     private readonly Label _lblStatus = new() { AutoSize = true };
 
-    // Id do registro em edição; null indica que o próximo "Salvar" cria um novo registro.
+    //Id do registro em edição - null indica que o próximo "Salvar" cria um novo registro.
     private int? _idEmEdicao;
 
-    // Ao recarregar a grade, o DataGridView dispara SelectionChanged sozinho; este indicador
-    // evita que isso sobrescreva o formulário (ex.: enquanto o usuário digita na busca).
+    //Ao recarregar a grade, o DataGridView dispara SelectionChanged sozinho - este indicador evita que isso sobrescreva o formulário
     private bool _recarregandoGrade;
 
+    //Construtor do formulário, recebe o repositório de Pessoas
     public MainForm(PessoaRepository repositorio)
     {
         _repositorio = repositorio;
@@ -32,6 +33,7 @@ public class MainForm : Form
         LimparFormulario();
     }
 
+    //Cria e posiciona os controles do formulário
     private void MontarInterface()
     {
         Text = "Controle de Acessos";
@@ -40,13 +42,13 @@ public class MainForm : Form
         StartPosition = FormStartPosition.CenterScreen;
         Font = new Font("Segoe UI", 10F);
 
-        // Painel superior: busca
+        //Painel superior - busca
         var painelBusca = new Panel { Dock = DockStyle.Top, Height = 48, Padding = new Padding(12, 10, 12, 6) };
         _txtBusca.Dock = DockStyle.Fill;
         _txtBusca.TextChanged += (_, _) => CarregarGrade();
         painelBusca.Controls.Add(_txtBusca);
 
-        // Painel inferior: formulário de cadastro
+        //Painel inferior - formulário de cadastro
         var painelForm = new TableLayoutPanel
         {
             Dock = DockStyle.Bottom,
@@ -78,7 +80,7 @@ public class MainForm : Form
         painelForm.Controls.Add(botoes, 1, 2);
         painelForm.Controls.Add(_lblStatus, 1, 3);
 
-        // Grade
+        //Grade
         _grade.Dock = DockStyle.Fill;
         _grade.AutoGenerateColumns = false;
         _grade.ReadOnly = true;
@@ -105,8 +107,7 @@ public class MainForm : Form
         });
         _grade.SelectionChanged += (_, _) => CarregarSelecaoNoFormulario();
 
-        // A ordem de inclusão importa no Dock: o WinForms posiciona primeiro os controles
-        // adicionados por último (Top e Bottom), e o Fill, adicionado antes, ocupa o espaço que sobra.
+        //O WinForms posiciona primeiro os controles adicionados por último (Top e Bottom), e o Fill, adicionado antes, ocupa o espaço que sobra.
         Controls.Add(_grade);
         Controls.Add(painelForm);
         Controls.Add(painelBusca);
@@ -129,7 +130,7 @@ public class MainForm : Form
         };
         _txtTelefone.KeyPress += (s, e) =>
         {
-            // Aceita só dígitos e caracteres comuns de formatação.
+            //Aceita só dígitos e caracteres comuns de formatação.
             if (!char.IsControl(e.KeyChar) && !char.IsAsciiDigit(e.KeyChar) && "()- +".IndexOf(e.KeyChar) < 0)
                 e.Handled = true;
         };
@@ -229,7 +230,7 @@ public class MainForm : Form
                 id = _repositorio.Inserir(pessoa);
             }
 
-            // O filtro de busca pode esconder o registro recém-salvo; limpar evita confusão.
+            //O filtro de busca pode esconder o registro recém-salvo
             if (_txtBusca.Text.Length > 0) _txtBusca.Clear();
             CarregarGrade(id);
             LimparFormulario();

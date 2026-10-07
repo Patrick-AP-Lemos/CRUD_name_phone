@@ -2,10 +2,10 @@ using ControleAcessos.Models;
 
 namespace ControleAcessos.Data;
 
-/// <summary>Operações de CRUD sobre a tabela Pessoas. Todo SQL usa parâmetros (sem concatenação).</summary>
+//Operações de CRUD sobre a tabela Pessoas
 public class PessoaRepository
 {
-    // Create
+    //Inserir na tabela Pessoas e retornar o Id gerado
     public int Inserir(Pessoa pessoa)
     {
         using var conexao = Database.CriarConexao();
@@ -21,7 +21,7 @@ public class PessoaRepository
         return Convert.ToInt32(cmd.ExecuteScalar());
     }
 
-    // Read
+    //Lê da tabela Pessoas e retorna uma lista de objetos Pessoa
     public List<Pessoa> Listar(string? filtroNome = null)
     {
         var lista = new List<Pessoa>();
@@ -52,7 +52,7 @@ public class PessoaRepository
         return lista;
     }
 
-    // Update
+    //Atualiza um registro existente na tabela Pessoas
     public bool Atualizar(Pessoa pessoa)
     {
         using var conexao = Database.CriarConexao();
@@ -66,7 +66,7 @@ public class PessoaRepository
         return cmd.ExecuteNonQuery() > 0;
     }
 
-    // Delete
+    //Deleta um registro da tabela Pessoas
     public bool Excluir(int id)
     {
         using var conexao = Database.CriarConexao();

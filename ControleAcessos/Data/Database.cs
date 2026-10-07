@@ -2,7 +2,7 @@ using Microsoft.Data.Sqlite;
 
 namespace ControleAcessos.Data;
 
-/// <summary>Cuida da conexão com o SQLite e da criação do esquema na primeira execução.</summary>
+//Cuida da conexão com o SQLite e da criação do esquema na primeira execução
 public static class Database
 {
     public static string CaminhoArquivo { get; } = Path.Combine(
@@ -18,6 +18,7 @@ public static class Database
 
     public static SqliteConnection CriarConexao() => new(ConnectionString);
 
+    //Cria o arquivo do banco de dados e a tabela Pessoas, caso não existam
     public static void Inicializar()
     {
         Directory.CreateDirectory(Path.GetDirectoryName(CaminhoArquivo)!);
